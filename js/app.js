@@ -17,6 +17,7 @@ class CalorieTracker {
   addMeal(meal) {
     this._meals.push(meal);
     this._totalCalories += meal.calorie;
+    this._displayMeal(meal);
     this._render();
   }
 
@@ -88,6 +89,27 @@ class CalorieTracker {
     const progressWidth = Math.min(percentage, 100);
 
     progressEl.style.width = `${progressWidth}%`;
+  }
+
+  _displayMeal(meal) {
+    const mealsEl = document.getElementById("meal-items");
+
+    const mealEl = document.createElement("div");
+    mealEl.classList.add("card", "my-2");
+    mealEl.innerHTML = `<div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h4 class="mx-1">${meal.name}</h4>
+                  <div
+                    class="fs-1 bg-primary text-white text-center rounded-2 px-2 px-sm-5"
+                  >
+                    ${meal.calorie}
+                  </div>
+                  <button class="delete btn btn-danger btn-sm mx-2">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+              </div>`;
+    mealsEl.appendChild(mealEl);
   }
 
   _render() {
