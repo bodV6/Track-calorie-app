@@ -120,53 +120,84 @@ class App {
     this._tracker = new CalorieTracker();
     document
       .getElementById("meal-form")
-      .addEventListener("submit", this._newMeal.bind(this));
+      .addEventListener("submit", this._newItem.bind(this, "meal"));
     document
       .getElementById("workout-form")
-      .addEventListener("submit", this._newWorkout.bind(this));
+      .addEventListener("submit", this._newItem.bind(this, "workout"));
   }
 
-  _newMeal(e) {
+  // _newMeal(e) {
+  //   e.preventDefault();
+
+  //   const name = document.getElementById("meal-name");
+  //   const calories = document.getElementById("meal-calories");
+
+  //   // validate empty  fields
+  //   if (name.value === "" || calories.value === "") {
+  //     alert("Please fill all fields");
+  //     return;
+  //   }
+  //   const meal = new Meal(name.value, +calories.value);
+  //   this._tracker.addMeal(meal);
+
+  //   name.value = "";
+  //   calories.value = "";
+
+  //   // collapse ui after submitting
+  //   const collapseMeal = document.getElementById("collapse-meal");
+  //   const uiCollapse = new bootstrap.Collapse(collapseMeal, { toggle: true });
+  // }
+
+  // _newWorkout(e) {
+  //   e.preventDefault();
+
+  //   const name = document.getElementById("workout-name");
+  //   const calories = document.getElementById("workout-calories");
+
+  //   // validate empty  fields
+  //   if (name.value === "" || calories.value === "") {
+  //     alert("Please fill all fields");
+  //     return;
+  //   }
+  //   const workout = new Workout(name.value, +calories.value);
+  //   this._tracker.addWorkout(workout);
+
+  //   name.value = "";
+  //   calories.value = "";
+
+  //   // collapse ui after submitting
+  //   const collapseWorkout = document.getElementById("collapse-workout");
+  //   const uiCollapse = new bootstrap.Collapse(collapseWorkout, {
+  //     toggle: true,
+  //   });
+  // }
+
+  /***   REfactor newMeal and newWorkout to one item      Method ***/
+  _newItem(type, e) {
     e.preventDefault();
 
-    const name = document.getElementById("meal-name");
-    const calories = document.getElementById("meal-calories");
+    const name = document.getElementById(`${type}-name`);
+    const calories = document.getElementById(`${type}-calories`);
 
     // validate empty  fields
     if (name.value === "" || calories.value === "") {
       alert("Please fill all fields");
       return;
     }
-    const meal = new Meal(name.value, +calories.value);
-    this._tracker.addMeal(meal);
-
-    name.value = "";
-    calories.value = "";
-
-    // collapse ui after submitting
-    const collapseMeal = document.getElementById("collapse-meal");
-    const uiCollapse = new bootstrap.Collapse(collapseMeal, { toggle: true });
-  }
-  _newWorkout(e) {
-    e.preventDefault();
-
-    const name = document.getElementById("workout-name");
-    const calories = document.getElementById("workout-calories");
-
-    // validate empty  fields
-    if (name.value === "" || calories.value === "") {
-      alert("Please fill all fields");
-      return;
+    if (type === "workout") {
+      const workout = new Workout(name.value, +calories.value);
+      this._tracker.addWorkout(workout);
+    } else {
+      const meal = new Meal(name.value, +calories.value);
+      this._tracker.addMeal(meal);
     }
-    const workout = new Workout(name.value, +calories.value);
-    this._tracker.addWorkout(workout);
 
     name.value = "";
     calories.value = "";
 
     // collapse ui after submitting
-    const collapseWorkout = document.getElementById("collapse-workout");
-    const uiCollapse = new bootstrap.Collapse(collapseWorkout, {
+    const collapseItem = document.getElementById(`collapse-${type}`);
+    const uiCollapse = new bootstrap.Collapse(collapseItem, {
       toggle: true,
     });
   }
